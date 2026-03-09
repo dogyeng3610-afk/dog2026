@@ -15,3 +15,9 @@
 - os 설명(리눅스, wsl0 사용하기로 함)
 
 ---
+
+- 터미널에서 유저 정보 입력
+git config --global user.email dogyeng3610@gmail.com
+git config --global user.name dogyeong3610-afk
+
+---
