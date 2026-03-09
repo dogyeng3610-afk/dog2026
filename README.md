@@ -21,11 +21,18 @@
 > int d, char c, char* s, octal o, hex h, float f, double lf, long double ldf, long long ll, unsigned int u, unsigned long long llu, pointer p, string s
 - limit 프로그램 - #define 
 > int(정수), float/ double(소수), long double, long long, unsigned int, unsigned long long
-
+- 상수 : constant
+> 리터럴 문자열 상수(data 영역에 저장), 일반 상수(스택 영역), 숫자(123), 문자('A'), 문자열("바인드")
+- 변수 : variable 
+> 메모리 공간 선언 후 사용, 참조(printf("%d", number);, int number = 123;)
+### type 엄밀히, 미리 규칙을 정해두면 다른 타입 연산 가능
+- cmake project, cmakelists.txt를 사용해 makefile만들고 make 명령어로 컴파일,cc 명령어 대신 사용 
+> cc -o ~ ~ + 라이브러리 추가 + 분할컴파일(기능별로)
 ---
-```
+
 - 터미널에서 유저 정보 입력
 git config --global user.email dogyeng3610@gmail.com
+
 git config --global user.name dogyeong3610-afk
 
 wsl ID : dog014
@@ -41,4 +48,3 @@ sudo apt install gcc
 
 sudo apt update
 sudo apt-get install gcc
-```
