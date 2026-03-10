@@ -80,3 +80,10 @@ compare 프로그램
 
 triangle 프로그램
 - %lf, %af(a는 소수점자리까지 표현)
+
+fahr2Celcius
+sizeof
+increment
+biletter
+genderratio
+alphabet
