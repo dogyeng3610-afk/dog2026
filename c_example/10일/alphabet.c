@@ -8,8 +8,8 @@ int main(void)
     printf("문자를 입력하세요: ");
     scanf("%c", &ch);
 
-    bool isBig;
-    isBig = ('A' <= ch) && (ch <= 'Z') || ('a' <= ch) && (ch <= 'z');
-    printf("%c는 %s", ch, isBig ? "알파벳 입니다." : "알파벳이 아닙니다.");
+    bool isAlphabet;
+    isAlphabet = ('A' <= ch && ch <= 'Z') || ('a' <= ch && ch <= 'z');
+    printf("%c는 %s", ch, isAlphabet ? "알파벳 입니다." : "알파벳이 아닙니다.");
     return 0;
 }
