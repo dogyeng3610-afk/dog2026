@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+
+int main(void)
+{
+    int num;
+    printf("숫자를 넣으세요: ");
+    scanf("%d", &num);
+
+    int isOdd;
+    // isOdd = (num % 2 == 1);
+    // isOdd = num % 2; // 홀수면 1, 짝수면 0
+    
+    printf("숫자는: %d \t is isOdd: %d\n", num, isOdd);
+    if(isOdd = num % 2) // 홀수면 1, 짝수면 0
+    {
+        printf("숫자는: %d \t 홀수입니다.\n", num);
+    }
+    else
+    {
+        printf("숫자는: %d \t 짝수입니다.\n", num);
+    }
+    return 0;
+}

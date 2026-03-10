@@ -48,3 +48,35 @@ sudo apt update\
 sudo apt-get install gcc
 
 # 2026.03.10
+
+---
+charNumber 프로그램
+- & 주소 연산자
+- scanf 문자 입력
+> 변수를 불러올때 ${변수명}
+
+makefile 생성
+- make all, Target, make clean
+> sudo apt install make
+- make 명시하지 않았을 때는 첫번째 코드 인식
+- makefile만 인식 ex) makefile_temp 인식x
+
+stringcopy 프로그램
+> #include <string.h>
+- strcpy로 코드 간축
+- 문자 뒤 NULL 인식
+> 프로그램은 0부터 카운트
+
+oddEven 프로그램
+- 홀수는 참, 짝수는 거짓 나머지가 0이면 false
+- if(T or F){}
+
+compare 프로그램
+> #include <strbool.h>
+- bool은 true, false
+- 관계연산자 ==
+> printf("1 <= %d <= 9 : %s\n", num, (1 <= num && num <= 9)? "true": "false");
+옳은 수식일 경우 true, 아니면 false
+
+triangle 프로그램
+- %lf, %af(a는 소수점자리까지 표현)
