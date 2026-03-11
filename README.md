@@ -3,6 +3,9 @@
 ---
 
 고려대 개발자 양성과정에서 쓰이는 저장소이다.
+1. 프로그래머스
+https://school.programmers.co.kr/learn/challenges/beginner?order=acceptance_desc&gad_source=1&gad_campaignid=22356298761&gbraid=0AAAAAC_c4nAWwCkxLSCDW0kAtv0ti-GPI&gclid=EAIaIQobChMI7rm47o2XkwMV5KdmAh1TrQD3EAAYASAAEgIpLvD_BwE\
+
 
 # 2026.03.09
 
@@ -131,4 +134,13 @@ for
         sum = sum + i + 1;\
     }
 
-https://school.programmers.co.kr/learn/challenges/beginner?order=acceptance_desc&gad_source=1&gad_campaignid=22356298761&gbraid=0AAAAAC_c4nAWwCkxLSCDW0kAtv0ti-GPI&gclid=EAIaIQobChMI7rm47o2XkwMV5KdmAh1TrQD3EAAYASAAEgIpLvD_BwE\
+array
+- 변수명[타입의 묶음]
+- [0,n) 0부터 n-1까지 접근 가능
+- 선언과 대입 따로 가능
+- 선언 + 초기화 가능 arr[5] = {0,1,2,3,4}
+> int nums[5] = {1, 2, 3, 4, 5};
+    int nums2[] = {1, 2, 3, 4, 5};
+    int nums3[10] = {1, 2, 3, 4, 5}; 
+    int nums4[50];                   
+    int nums5[50] = {0};
