@@ -130,3 +130,5 @@ for
     {\
         sum = sum + i + 1;\
     }
+
+https://school.programmers.co.kr/learn/challenges/beginner?order=acceptance_desc&gad_source=1&gad_campaignid=22356298761&gbraid=0AAAAAC_c4nAWwCkxLSCDW0kAtv0ti-GPI&gclid=EAIaIQobChMI7rm47o2XkwMV5KdmAh1TrQD3EAAYASAAEgIpLvD_BwE\
