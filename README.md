@@ -192,12 +192,12 @@ void info(int a, int b)\
 3) qsort
 - qsort(배열, 타입-숫자, 원소의 사이즈(int = 4/sizeof연산자), 비교하는 함수의 타입)
 - 데이터가 클수록 용이
-    > int compare(const void *a, const void *b);\
-    qsort(nums, indexN, sizeof(int), compare);\
-    int compare(const void *a, const void *b)\
-    {\
-    return (*(int *)a - *(int *)b); \
-    }
+ > int compare(const void *a, const void *b);\
+qsort(nums, indexN, sizeof(int), compare);\
+int compare(const void *a, const void *b)\
+{\
+return (*(int *)a - *(int *)b); \
+}
 
 포인터pointer
 - pointer1
@@ -210,3 +210,35 @@ p = &Value;\
 *p = 200;\
 *p = 200 == Value = 200*
 
+이중포인터
+- pointer4_doublepointer
+
+
+다른 타입 포인터 가져오기
+- pointer3
+- Big endian, Little endian
+
+
+함수명 = 포인터
+- int 함수명(type, type);
+- int (*포인터)(type,type);
+> 포인터 = 함수명;\
+fp = add;
+>int 변수 = 함수(숫자, 숫자)\
+int re = fp(4,3)
+- pointer5_functionpointer
+
+void * void 포인터
+- pointer6_voidpoint
+
+
+배열명 - 포인터
+- pointerAndArray
+- arrayAssignment
+- arraycompare
+
+
+새 파일 CMakeLists.txt
+새 파일 .gitignore
+> browse.*\
+  build/
