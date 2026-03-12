@@ -133,6 +133,18 @@ for
     {\
         sum = sum + i + 1;\
     }
+- 이중 for문 계층적
+
+while
+-while(조건문){코드}
+
+do while
+-do{코드}while{코드}
+
+- continue 다음 루프로 이동
+- break 블록 탈축(강제false)
+변수
+- 전역변수, 지역변수, 범위(scope)
 
 array
 - 변수명[타입의 묶음]
@@ -144,3 +156,13 @@ array
     int nums3[10] = {1, 2, 3, 4, 5}; 
     int nums4[50];                   
     int nums5[50] = {0};
+- 메모리 범위 내에서만
+
+# 2026.03.12
+
+localVariable
+swap
+selectionSorting
+bubbleSorting
+qsort
+
