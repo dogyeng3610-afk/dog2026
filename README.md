@@ -144,7 +144,7 @@ do while
 - continue 다음 루프로 이동
 - break 블록 탈축(강제false)
 변수
-- 전역변수, 지역변수, 범위(scope)
+- 전역변수-최상위, 지역변수, 사용 범위(scope)
 
 array
 - 변수명[타입의 묶음]
@@ -160,9 +160,41 @@ array
 
 # 2026.03.12
 
-localVariable
-swap
-selectionSorting
-bubbleSorting
-qsort
+함수
+- type 식별자(argument-type 변수명); 선언
+- type 식별자(argument-type 변수명){} 정의
+- 데이터 복사 메모리 사용 증가 주의
+- 포인터 넘기기를 통해 데이터 복사
+- type = return type
+- return 값 없으면 void
+- localVariable
+- swap
+>void swap(int *a, int *b)\
+{\
+    int temp;\
+    temp = *a;\
+    *a = *b;\
+    *b = temp;\
+}\
+void info(int a, int b)\
+{\
+    printf("a: %d, b: %d\n", a, b);\
+}
 
+
+정렬
+1) 선택정렬 selectionSorting
+- 기준을 잡고 다른 인덱스와 비교
+- 0 vs 1, 0 vs 2, 0 vs 3...
+2) 버블정렬 bubbleSorting
+- 순차적으로 두 개씩 비교 
+- 0 vs 1. 1 vs 2...
+3) qsort
+- qsort(배열, 타입-숫자, 원소의 사이즈(int = 4/sizeof연산자), 비교하는 함수의 타입)
+- 데이터가 클수록 용이
+    > int compare(const void *a, const void *b);\
+    qsort(nums, indexN, sizeof(int), compare);\
+    int compare(const void *a, const void *b)\
+    {\
+    return (*(int *)a - *(int *)b); \
+    }

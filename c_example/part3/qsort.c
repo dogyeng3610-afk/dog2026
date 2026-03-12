@@ -19,5 +19,5 @@ int main(void)
 
 int compare(const void *a, const void *b)
 {
-    return (*(int *)a - *(int *)b); // a는 주소, int* 인트 주소로 바꿔라. 산수연산자를 상ㅇ하기 위해 int. *주소가 가리키는 값 참조
+    return (*(int *)a - *(int *)b); // a는 주소, int* 인트 주소로 바꿔라. 산수연산자를 사용하기 위해 int. *주소가 가리키는 값 참조
 }
