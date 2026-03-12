@@ -198,3 +198,15 @@ void info(int a, int b)\
     {\
     return (*(int *)a - *(int *)b); \
     }
+
+포인터pointer
+- pointer1
+- 포인터 p가 가리키는 위치에 저장, p가 가리키는 위치는 &Value
+> int *p;\
+*주소값을 저장하는 변수 선언*\
+int Value;\
+p = &Value;\
+*Value의 주소값 p에 저장 p는 Value의 주소값*\
+*p = 200;\
+*p = 200 == Value = 200*
+
