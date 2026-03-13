@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int add(int a, int b); // 선언 
+int add(int a, int b); // 선언
 
 int main(void)
 {
