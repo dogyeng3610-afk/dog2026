@@ -11,7 +11,6 @@ https://school.programmers.co.kr/learn/challenges/beginner?order=acceptance_desc
 
 ---
 
-자기소개\
 wsl 설치\
 vscode, git 설치\
 os 설명(리눅스, wsl2 사용하기로 함)\
