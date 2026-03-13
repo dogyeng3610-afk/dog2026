@@ -241,3 +241,48 @@ void * void 포인터
 새 파일 .gitignore
 > browse.*\
   build/
+
+# 2026.03.13
+  ## 분할 컴파일
+  
+  ## prat4 carSerial, myRandom
+  - 폴더 생성 - 파일 생성(CMakeLists.txt, main.c, lib.h, lib.c)
+  ### CMakeLists.txt
+  - 최상위 cmake파일
+  - 파일 주소 들어가야함.
+  > cmake_minimum_required(VERSION 3.10)\
+    project(dog2026)\
+    set(CMAKE_CXX_STANDARD 17)\
+    set(CMAKE_C_STANDARD 17)\
+    add_subdirectory(c_example/part3)\
+    add_subdirectory(c_example/part4/carSerial)\
+    project(~)\
+    add_subdirectory(c_example/part4/myRandom)
+  ### 폴더 내 CMakeLists.txt
+  - 폴더명, main, lib.c파일 들어가야함.
+  > cmake_minimum_required(VERSION 3.10)\
+    include_directories(${CMAKE_CURRENT_LIST_DIR})\
+    add_executable(~ main.c ~.c)
+  ### 빌드 방법
+  #### 1. cmake로 빌드
+  > 터미널\
+    cd ~\
+  > cc -c main.c\
+    mkdir build\
+    cd build\
+    cmake ..\
+    make
+  #### 2. makefile로 빌드
+  ##### 터미널
+    cc -c serial.c\
+    cc -o carSerial main.o serial.o
+    
+  ###### make파일
+  > carSerial : main.o serial.o\
+	cc -o carSerial main.o serial.o\
+    main.o : main.c serial.h\
+	cc -c main.c\
+    serial.o : serial.c serial.h\
+	cc -c serial.c\
+    clean :\
+	rm main.o serial.o carSerial

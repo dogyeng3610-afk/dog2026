@@ -3,7 +3,7 @@
 
 int compare(const void *a, const void *b); 
 // const는 함수 내부에서 상수처럼 쓰겠다라는 의미, void는 원형 여러 타입 대응가능, *a는 주소값으로 받아오겠다라는 의미
-// void* 안쪽의 데이터 모름ㅡ맏
+// void* 안쪽의 데이터 모름
 int main(void)
 {
     int nums[10] = {11, 15, 55, 46, 2, 4, 87, 23, 45, 77};
