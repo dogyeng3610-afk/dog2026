@@ -286,3 +286,33 @@ void * void 포인터
 	cc -c serial.c\
     clean :\
 	rm main.o serial.o carSerial
+
+  # 2026.03.16
+  ## 구조체
+  - struct : 사용자 정의 타입
+  - typedef A B : 별명붙이기 (가독성 ↑)
+  - 멤버 연산자 ., ->
+  >   struct date\
+  {\
+    int year;\
+    int month;\
+    int day;\
+  };\
+  >>struct data d;
+
+  > typedef struct\
+  {\
+    int year;\
+    int month;\
+    int day;\
+  } Date;\
+  >> Date d;
+
+  > 대소문자 구분 : 식별자, 함수명, 변수명 모두 소문자\
+  사용자 정의 타입만 대문자
+  
+
+  내부에서 읽기만 한다면 const 사용
+  연산자의 우선순위
+
+  #progma once
