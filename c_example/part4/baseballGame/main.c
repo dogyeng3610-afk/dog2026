@@ -1,7 +1,5 @@
 #include "baseballGame.h"
 
-#define SIZE 3
-
 int main()
 {
     int question[SIZE] = {0};
@@ -22,6 +20,6 @@ int main()
         }
     }
 
-    printf("축하합니다.congraturation!! 시도 횟수는 %d 입니다.\n", count);
+    printf("시도 횟수는 %d 입니다.\n", count);
     return 0;
 }

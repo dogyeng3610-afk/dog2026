@@ -1,5 +1,4 @@
 #include "baseballGame.h"
-#define SIZE 3
 
 void generate_number(int *question)
 {
@@ -21,10 +20,10 @@ void generate_number(int *question)
         }
     }
     // 임시로 체크
-    for (int i = 0; i < SIZE; ++i)
-    {
-        printf("%d ", question[i]);
-    }
+    // for (int i = 0; i < SIZE; ++i)
+    // {
+    //     printf("%d ", question[i]);
+    // }
 }
 
 void input_numbers(int *answer)
@@ -63,4 +62,6 @@ bool check_result(const int *question, const int *answer, int *strike, int *ball
     }
     printf("strike %d, ball %d\n", *strike, *ball);
     return false;
+    // printf("strike %d, ball %d\n", *strike, *ball);
+    // return (*strike == SIZE);
 }
