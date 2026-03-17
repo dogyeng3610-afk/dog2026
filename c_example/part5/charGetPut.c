@@ -13,9 +13,14 @@ int main(void)
     // 10 getchar() a 버퍼 : /n
     printf("%d,%d,%d", stdin->_fileno, stdout->_fileno, stderr->_fileno);
     printf("입력한 문자는 %c 입니다.\n", ch);
-    // 버퍼를 지움 ↑
-    while (getchar() != '\n')
+    
+    // 버퍼를 지움
+    /* while (getchar() != '\n')
         ;
+     */
+    while (getchar() != '\n' && getchar() != EOF)
+        ;
+
     ch = fgetc(stdin);
     printf("입력한 문자는 %c입니다.\n", ch);
     scanf("%s", str); // 버퍼를 지우고
