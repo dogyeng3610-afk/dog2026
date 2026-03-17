@@ -2,8 +2,9 @@
 
 int main(void)
 {
+    // 버퍼
     FILE *a;
-    a = fopen("test2.dat", "w");
+    a = fopen("test2.dat", "w"); // w : write
     printf("%d", a->_fileno);
     if (a == NULL)
     {
