@@ -53,3 +53,19 @@ void printResult(FILE *fp, Sdata **table, int n)
     }
     fprintf(fp, "-----------------------------------------------\n");
 }
+
+int count_students(FILE *fp)
+{
+    int count = 0;
+    char tmp[100];
+
+    while (fgets(tmp, sizeof(tmp), fp) != NULL)
+    {
+        if (tmp[0] != '\n' && tmp[0] != '\r')
+        {
+            count++;
+        }
+    }
+    rewind(fp); // 파일포인터의 현재 데이터의 위치를 첫지점으로 바꿈
+    return count;
+}
