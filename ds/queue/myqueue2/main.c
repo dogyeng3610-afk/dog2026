@@ -23,14 +23,14 @@ int main(void)
     printf("세번째 pop():%d\n", pop(&qu2));
 
     // max index를 넘어갔을 때 101개를 채울때
-    for (int i = 0; i < 99; ++i)
+    for (int i = 0; i < 101; ++i)
     {
         push(&qu2, i);
         printf("%d, \n", i);
     }
 
     // 데이터가 부족할 때
-    for (int i = 0; i < 30; ++i)
+    for (int i = 0; i < 100; ++i)
     {
         printf("%d번째 pop() : %d\n", i, pop(&qu2));
     }

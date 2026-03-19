@@ -4,8 +4,7 @@
 
 #define ARRAYSIZE 100
 
-typedef struct
-{
+typedef struct {
     int queue[ARRAYSIZE];
     int *front;
     int *rear;

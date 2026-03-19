@@ -26,6 +26,19 @@ int main(void)
     printf("s1 메모리 사이즈는: %d\n", s1.size);
     printf("s2 메모리 사이즈는: %d\n", s2.size);
 
+    // size를 넘겼을 때 assert작동 확인
+    for (int i = 0; i < 101; ++i)
+    {
+        push(&s2, i);
+        printf("%d, \n", i);
+    }
+
+    // 데이터가 없을 때 assert작동 확인
+    for (int i = 0; i < 102; ++i)
+    {
+        printf("%d번째 pop() : %d\n", i, pop(&s2));
+    }
+
     cleanupStack(&s1);
     cleanupStack(&s2);
     return 0;
