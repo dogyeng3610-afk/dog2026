@@ -321,3 +321,13 @@ void * void 포인터
 ## union, enum, string
 
 # 2026.03.17
+## Data structure
+### List
+### Queue
+### Stack
+# 2026.03.18
+## 네트워크
+- HTTP : www.~
+- 소켓 통신 - 버퍼(레지스트리) => TCP/IP, UDP/IP => port
+- WAN, LAN
+- MQTT 
