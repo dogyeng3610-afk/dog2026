@@ -19,3 +19,14 @@ add_subdirectory(ds/queue/myqueue1)
 add_subdirectory(ds/queue/myqueue2)
 add_subdirectory(ds/queue/myqueue3)
 add_subdirectory(network)
+
+ExternalProject_Add(atmega128_project
+	SOURCE_DIR ${CMAKE_SOURCE_DIR}/atmega128
+	BINARY_DIR ${CMAKE_BINARY_DIR}/atmega128-build
+	CMAKE_ARGS
+		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/atmega128/avr-toolchain.cmake
+		-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+	INSTALL_COMMAND ""
+)
+
