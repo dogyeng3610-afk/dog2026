@@ -1,0 +1,49 @@
+{
+    "configurations": [
+        {
+            "includePath": [
+                "/usr/include/**",
+                "/usr/lib/avr/**"
+            ],
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "c++17"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        },
+        {
+            "name": "avr-atmega128",
+            "includePath": [
+                "${workspaceFolder}/atmega128/**",
+                "/usr/local/include/**",
+                "/usr/include/**",
+                "/usr/lib/avr/**"
+            ],
+            "defines": [
+                "F_CPU=16000000UL",
+                "__AVR__",
+                "__AVR_ATmega128__"
+            ],
+            "compilerPath": "/usr/bin/avr-gcc",
+            "compilerArgs": [
+                "-mmcu=atmega128",
+                "-DF_CPU=16000000UL"
+            ],
+            "cStandard": "gnu11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

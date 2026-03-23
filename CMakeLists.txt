@@ -3,6 +3,7 @@ project(dog2026)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 17)
+include(ExternalProject)
 
 add_subdirectory(c_example/part3)
 add_subdirectory(c_example/part4/carSerial)
@@ -27,6 +28,6 @@ ExternalProject_Add(atmega128_project
 		-DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/atmega128/avr-toolchain.cmake
 		-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-	INSTALL_COMMAND ""
+        INSTALL_COMMAND ""
 )
 
