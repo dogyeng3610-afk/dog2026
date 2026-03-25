@@ -33,7 +33,3 @@ void pop(Stack *ps, void *pData)
     ps->tos = (unsigned char *)ps->tos - ps->eleSize;
     memcpy(pData, (unsigned char *)ps->tos, ps->eleSize);
 }
-
-// memcpy를 썼을 때 1바이트씩 작동을 해라, 데이터(소스)를 char 단위로, eleSize만큼 / elesize만큼 pData에서 읽어서 tos에 넣기
-
-// char는 1바이트 단위
