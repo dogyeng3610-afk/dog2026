@@ -15,6 +15,7 @@ set(PROG_PORT usb)
 set(UART0_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/uart0")
 set(LCD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/lcd")
 set(SHT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/sht20")
+set(AT25_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/at25")
 
 # --- 1. src 폴더의 모든 .c 파일 목록 가져오기 ---
 file(GLOB SRC_FILES "src/*.c")
@@ -59,6 +60,20 @@ foreach(SOURCE_FILE ${SRC_FILES})
         target_include_directories(${EXE_NAME}.elf PRIVATE "${LCD_DIR}")
         target_sources(${EXE_NAME}.elf PRIVATE "${UART0_DIR}/uart0.c")
         target_include_directories(${EXE_NAME}.elf PRIVATE "${UART0_DIR}")
+    endif()
+
+    if(EXE_NAME STREQUAL "external_eeprom")
+        target_sources(${EXE_NAME}.elf PRIVATE "${LCD_DIR}/lcd.c")
+        target_include_directories(${EXE_NAME}.elf PRIVATE "${LCD_DIR}")
+        target_sources(${EXE_NAME}.elf PRIVATE "${AT25_DIR}/at25160.c")
+        target_include_directories(${EXE_NAME}.elf PRIVATE "${AT25_DIR}")
+    endif()
+
+    if(EXE_NAME STREQUAL "external_eeprom2")
+        target_sources(${EXE_NAME}.elf PRIVATE "${LCD_DIR}/lcd.c")
+        target_include_directories(${EXE_NAME}.elf PRIVATE "${LCD_DIR}")
+        target_sources(${EXE_NAME}.elf PRIVATE "${AT25_DIR}/at25160.c")
+        target_include_directories(${EXE_NAME}.elf PRIVATE "${AT25_DIR}")
     endif()
 
     target_compile_options(${EXE_NAME}.elf PUBLIC
