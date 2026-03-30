@@ -7,7 +7,6 @@ include(ExternalProject)
 
 add_subdirectory(c_example/part3)
 add_subdirectory(c_example/part4/carSerial)
-add_subdirectory(c_example/part4/myRandom)
 add_subdirectory(c_example/part4/baseballGame)
 add_subdirectory(c_example/part5/date)
 add_subdirectory(c_example/part5/twoDouble)
