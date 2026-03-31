@@ -19,7 +19,7 @@ add_executable(blink
     )
 
 # 표준 라이브러리 연결
-target_link_libraries(hello_pico pico_stdlib)
+target_link_libraries(hello_pico pico_stdlib hardware_i2c)
 target_link_libraries(blink pico_stdlib)
 
 if (PICO_CYW43_SUPPORTED)

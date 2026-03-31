@@ -1,11 +1,109 @@
 #include <stdio.h>
+#include <string.h>
 #include "pico/stdlib.h"
-// #include "hardware/adc.h"   // 조도센서 비활성화
 #include "hardware/gpio.h"
+#include "hardware/i2c.h"
 #include "hardware/sync.h"
 
 #define DHT_PIN 15
-// #define LIGHT_ADC 0   // 조도센서 비활성화
+
+// I2C LCD(PCF8574 백팩) 설정
+#define I2C_PORT i2c0
+#define I2C_SDA_PIN 4
+#define I2C_SCL_PIN 5
+#define I2C_BAUDRATE 100000
+#define LCD_ADDR 0x27 // 모듈 주소가 다르면 0x3F로 변경
+
+#define LCD_RS 0x01
+#define LCD_RW 0x02
+#define LCD_EN 0x04
+#define LCD_BL 0x08
+
+//--------------------------------------
+// I2C LCD 제어 함수
+//--------------------------------------
+static void lcd_i2c_write(uint8_t data)
+{
+    uint8_t buffer = data | LCD_BL;
+    i2c_write_blocking(I2C_PORT, LCD_ADDR, &buffer, 1, false);
+    sleep_us(50);
+}
+
+static void lcd_toggle_enable(uint8_t data)
+{
+    lcd_i2c_write(data | LCD_EN);
+    sleep_us(1);
+    lcd_i2c_write(data & ~LCD_EN);
+    sleep_us(50);
+}
+
+static void lcd_send_nibble(uint8_t nibble, uint8_t mode)
+{
+    uint8_t data = (nibble & 0xF0) | mode;
+    lcd_i2c_write(data);
+    lcd_toggle_enable(data);
+}
+
+static void lcd_send_byte(uint8_t value, uint8_t mode)
+{
+    lcd_send_nibble(value & 0xF0, mode);
+    lcd_send_nibble((value << 4) & 0xF0, mode);
+}
+
+static void lcd_command(uint8_t cmd)
+{
+    lcd_send_byte(cmd, 0);
+    if (cmd == 0x01 || cmd == 0x02)
+        sleep_ms(2);
+}
+
+static void lcd_data(uint8_t value)
+{
+    lcd_send_byte(value, LCD_RS);
+}
+
+static void lcd_clear(void)
+{
+    lcd_command(0x01);
+}
+
+static void lcd_set_cursor(uint8_t col, uint8_t row)
+{
+    static const uint8_t row_offsets[] = {0x00, 0x40};
+    lcd_command(0x80 | (col + row_offsets[row % 2]));
+}
+
+static void lcd_print_line(uint8_t row, const char *text)
+{
+    char line[17];
+    snprintf(line, sizeof(line), "%-16.16s", text);
+
+    lcd_set_cursor(0, row);
+    for (int i = 0; i < 16; i++)
+        lcd_data(line[i]);
+}
+
+static void lcd_init_display(void)
+{
+    i2c_init(I2C_PORT, I2C_BAUDRATE);
+    gpio_set_function(I2C_SDA_PIN, GPIO_FUNC_I2C);
+    gpio_set_function(I2C_SCL_PIN, GPIO_FUNC_I2C);
+    gpio_pull_up(I2C_SDA_PIN);
+    gpio_pull_up(I2C_SCL_PIN);
+
+    sleep_ms(50);
+    lcd_send_nibble(0x30, 0);
+    sleep_ms(5);
+    lcd_send_nibble(0x30, 0);
+    sleep_us(150);
+    lcd_send_nibble(0x30, 0);
+    lcd_send_nibble(0x20, 0); // 4bit mode
+
+    lcd_command(0x28); // 2 line, 5x8 font
+    lcd_command(0x0C); // display on, cursor off
+    lcd_command(0x06); // entry mode
+    lcd_clear();
+}
 
 //--------------------------------------
 // 타임아웃 기반 대기 함수
@@ -78,32 +176,40 @@ fail:
 //--------------------------------------
 int main()
 {
+    char line1[17];
+    char line2[17];
+
     stdio_init_all();
-
     gpio_init(DHT_PIN);
+    gpio_pull_up(DHT_PIN);
+    lcd_init_display();
 
-    // adc_init();                // 조도센서 비활성화
-    // adc_gpio_init(26);
-    // adc_select_input(LIGHT_ADC);
+    lcd_print_line(0, "Sensor Booting");
+    lcd_print_line(1, "Please wait...");
 
     printf("[SYSTEM] Boot complete\n");
-    printf("[SYSTEM] DHT sensor only mode\n");
+    printf("[SYSTEM] DHT -> I2C LCD mode\n");
 
     while (1)
     {
-        float temp = 0.0f, humi = 0.0f;
-
+        float temp = 0.0f;
+        float humi = 0.0f;
         bool dht_ok = read_dht(&temp, &humi);
-
-        // uint16_t light = adc_read();  // 조도센서 비활성화
 
         if (dht_ok)
         {
-            printf("[DATA] Temp: %.1f C | Humi: %.1f %%\n",
-                   temp, humi);
+            snprintf(line1, sizeof(line1), "Temp: %2d.0 C", (int)temp);
+            snprintf(line2, sizeof(line2), "Humi: %2d.0 %%", (int)humi);
+
+            lcd_print_line(0, line1);
+            lcd_print_line(1, line2);
+
+            printf("[DATA] %s | %s\n", line1, line2);
         }
         else
         {
+            lcd_print_line(0, "DHT read fail");
+            lcd_print_line(1, "Check wiring");
             printf("[ERROR] DHT read fail\n");
         }
 
