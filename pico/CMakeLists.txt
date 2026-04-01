@@ -39,6 +39,10 @@ add_executable(cds1
     src/cds1.c
 )
 
+add_executable(project0
+    src/project0.c
+)
+
 # ------------------------
 # Libraries
 # ------------------------
@@ -77,6 +81,13 @@ target_link_libraries(cds1
     hardware_adc
 )
 
+target_link_libraries(project0
+    pico_stdlib
+    hardware_i2c
+    hardware_gpio
+    hardware_adc
+)
+
 if (PICO_CYW43_SUPPORTED)
     target_link_libraries(blink
         pico_cyw43_arch_none
@@ -92,6 +103,9 @@ pico_enable_stdio_uart(hello_pico 0)
 pico_enable_stdio_usb(cds1 1)
 pico_enable_stdio_uart(cds1 0)
 
+pico_enable_stdio_usb(project0 1)
+pico_enable_stdio_uart(project0 0)
+
 
 # ------------------------
 # Extra outputs
@@ -102,3 +116,4 @@ pico_add_extra_outputs(lcd_1602_i2c)
 pico_add_extra_outputs(dht)
 pico_add_extra_outputs(cds)
 pico_add_extra_outputs(cds1)
+pico_add_extra_outputs(project0)
