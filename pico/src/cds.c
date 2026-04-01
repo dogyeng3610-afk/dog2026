@@ -4,8 +4,22 @@
 #include "hardware/gpio.h"
 #include "hardware/i2c.h"
 #include "hardware/sync.h"
+#include "pico/cyw43_arch.h"
+#include "lwip/apps/mqtt.h"
+#include "lwip/apps/mqtt_priv.h"
+#include "lwip/dns.h"
+#include "lwip/netif.h"
+#include "lwip/ip_addr.h"
 
 #define DHT_PIN 15
+
+// WiFi/MQTT 설정
+#define WIFI_SSID "your_ssid"
+#define WIFI_PASSWORD "your_password"
+#define MQTT_SERVER "broker.hivemq.com" // MQTT 브로커 도메인이나 IP
+#define MQTT_TOPIC "/pico/dht11"
+#define MQTT_PORT 1883
+
 
 // I2C LCD(PCF8574 백팩) 설정
 #define I2C_PORT i2c0
@@ -105,6 +119,67 @@ static void lcd_init_display(void)
     lcd_clear();
 }
 
+// MQTT 상태 구조체
+typedef struct {
+    mqtt_client_t* mqtt_client_inst;
+    struct mqtt_connect_client_info_t mqtt_client_info;
+    ip_addr_t mqtt_server_address;
+    bool connect_done;
+} mqtt_state_t;
+
+static mqtt_state_t mqtt_state;
+
+static void pub_request_cb(void *arg, err_t err) {
+    if (err != ERR_OK) {
+        printf("MQTT publish failed: %d\n", err);
+    }
+}
+
+static void mqtt_connection_cb(mqtt_client_t *client, void *arg, mqtt_connection_status_t status) {
+    mqtt_state_t *state = (mqtt_state_t*)arg;
+    if (status == MQTT_CONNECT_ACCEPTED) {
+        state->connect_done = true;
+        printf("MQTT connected\n");
+    } else {
+        printf("MQTT connection failed: %d\n", status);
+        state->connect_done = false;
+    }
+}
+
+static void start_mqtt_client(mqtt_state_t *state) {
+    int port = MQTT_PORT;
+
+    state->mqtt_client_inst = mqtt_client_new();
+    if (!state->mqtt_client_inst) {
+        panic("Failed to create MQTT client\n");
+    }
+
+    state->mqtt_client_info.client_id = "pico_dht11";
+    state->mqtt_client_info.keep_alive = 60;
+    state->mqtt_client_info.will_topic = NULL;
+
+    printf("Connecting to mqtt server %s\n", ipaddr_ntoa(&state->mqtt_server_address));
+
+    cyw43_arch_lwip_begin();
+    err_t err = mqtt_client_connect(state->mqtt_client_inst, &state->mqtt_server_address, port, mqtt_connection_cb, state, &state->mqtt_client_info);
+    if (err != ERR_OK) {
+        printf("mqtt_client_connect error: %d\n", err);
+        panic("MQTT connect fail");
+    }
+    mqtt_set_inpub_callback(state->mqtt_client_inst, NULL, NULL, NULL);
+    cyw43_arch_lwip_end();
+}
+
+static void dns_found(const char *hostname, const ip_addr_t *ipaddr, void *arg) {
+    mqtt_state_t *state = (mqtt_state_t*)arg;
+    if (ipaddr != NULL) {
+        state->mqtt_server_address = *ipaddr;
+        start_mqtt_client(state);
+    } else {
+        panic("DNS lookup failed\n");
+    }
+}
+
 //--------------------------------------
 // 타임아웃 기반 대기 함수
 //--------------------------------------
@@ -197,6 +272,30 @@ int main()
     printf("[SYSTEM] Boot complete\n");
     printf("[SYSTEM] DHT -> I2C LCD mode\n");
 
+    // Wifi and MQTT 초기화
+    if (cyw43_arch_init()) {
+        panic("cyw43 init failed\n");
+    }
+    cyw43_arch_enable_sta_mode();
+    if (cyw43_arch_wifi_connect_timeout_ms(WIFI_SSID, WIFI_PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
+        panic("WiFi connect failed\n");
+    }
+    printf("WiFi connected\n");
+
+    cyw43_arch_lwip_begin();
+    err_t err = dns_gethostbyname(MQTT_SERVER, &mqtt_state.mqtt_server_address, dns_found, &mqtt_state);
+    cyw43_arch_lwip_end();
+    if (err == ERR_OK) {
+        start_mqtt_client(&mqtt_state);
+    } else if (err != ERR_INPROGRESS) {
+        panic("DNS request failed\n");
+    }
+
+    while (!mqtt_state.connect_done) {
+        cyw43_arch_poll();
+        cyw43_arch_wait_for_work_until(make_timeout_time_ms(100));
+    }
+
     while (1)
     {
         float temp = 0.0f;
@@ -205,13 +304,23 @@ int main()
 
         if (dht_ok)
         {
-            snprintf(line1, sizeof(line1), "Temp: %2d.0 C", (int)temp);
-            snprintf(line2, sizeof(line2), "Humi: %2d.0 %%", (int)humi);
+            snprintf(line1, sizeof(line1), "Temp: %.1f C", temp);
+            snprintf(line2, sizeof(line2), "Humi: %.1f %%", humi);
 
             lcd_print_line(0, line1);
             lcd_print_line(1, line2);
 
             printf("[DATA] %s | %s\n", line1, line2);
+
+            // MQTT 메시지 전송
+            char payload[64];
+            snprintf(payload, sizeof(payload), "{\"temperature\":%.1f,\"humidity\":%.1f}", temp, humi);
+            cyw43_arch_lwip_begin();
+            err_t pub_err = mqtt_publish(mqtt_state.mqtt_client_inst, MQTT_TOPIC, payload, strlen(payload), 1, 0, pub_request_cb, &mqtt_state);
+            cyw43_arch_lwip_end();
+            if (pub_err != ERR_OK) {
+                printf("MQTT publish failed: %d\n", pub_err);
+            }
         }
         else
         {
