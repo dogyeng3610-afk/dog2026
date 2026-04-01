@@ -205,13 +205,13 @@ int main()
 
         if (dht_ok)
         {
-            snprintf(line1, sizeof(line1), "Temp: %2d.1f C", (int)temp, temp - (int)temp);
-            snprintf(line2, sizeof(line2), "Humi: %2d.0 %%", (int)humi);
+            snprintf(line1, sizeof(line1), "T:%.1fC H:%2d.0%%", temp, (int)humi);
+            snprintf(line2, sizeof(line2), " ");
 
             lcd_print_line(0, line1);
             lcd_print_line(1, line2);
 
-            printf("[DATA] %s | %s\n", line1, line2);
+            printf("[DATA] %s\n", line1);
         }
         else
         {
