@@ -43,6 +43,10 @@ add_executable(project0
     src/project0.c
 )
 
+add_executable(project1
+    src/project1.c
+)
+
 # ------------------------
 # Libraries
 # ------------------------
@@ -83,7 +87,12 @@ target_link_libraries(cds1
 
 target_link_libraries(project0
     pico_stdlib
-    hardware_i2c
+    hardware_gpio
+    hardware_adc
+)
+
+target_link_libraries(project1
+    pico_stdlib
     hardware_gpio
     hardware_adc
 )
@@ -106,6 +115,9 @@ pico_enable_stdio_uart(cds1 0)
 pico_enable_stdio_usb(project0 1)
 pico_enable_stdio_uart(project0 0)
 
+pico_enable_stdio_usb(project1 1)
+pico_enable_stdio_uart(project1 0)
+
 
 # ------------------------
 # Extra outputs
@@ -117,3 +129,4 @@ pico_add_extra_outputs(dht)
 pico_add_extra_outputs(cds)
 pico_add_extra_outputs(cds1)
 pico_add_extra_outputs(project0)
+pico_add_extra_outputs(project1)
