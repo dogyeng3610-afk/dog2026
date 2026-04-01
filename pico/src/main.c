@@ -205,7 +205,7 @@ int main()
 
         if (dht_ok)
         {
-            snprintf(line1, sizeof(line1), "Temp: %2d.0 C", (int)temp);
+            snprintf(line1, sizeof(line1), "Temp: %2d.1f C", (int)temp, temp - (int)temp);
             snprintf(line2, sizeof(line2), "Humi: %2d.0 %%", (int)humi);
 
             lcd_print_line(0, line1);
